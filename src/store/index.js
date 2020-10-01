@@ -26,7 +26,14 @@ export default new Vuex.Store({
               { name: `type: ${price.type}` },
             ]
           }
-        })
+        });
+
+        const optionsArr = [];
+        const options = el.options;
+        for (let prop in options) {
+          optionsArr.push({ name: `${prop}: ${options[prop]}` })
+        }
+
         return {
           name: el.name || 'Название МЦ отсутствует',
           children: [
@@ -34,8 +41,12 @@ export default new Vuex.Store({
             { name: `good_id: ${el.good_id}` },
             { name: `info: ${el.info}` },
             { 
-              name: `prices:`,
+              name: 'prices:',
               children: mapPrices
+            },
+            {
+              name: 'options:',
+              children: optionsArr
             }
           ]
         }

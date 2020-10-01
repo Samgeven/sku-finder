@@ -1,7 +1,7 @@
 <template>
   <v-main>
-  <v-container>
-      <v-row class="mx-auto mt-8 flex-column">
+    <v-container>
+      <v-row class="mt-8 flex-column">
         <router-link class="to-search-link" to="/">
           <v-btn class="align-self-start mb-6">
             Вернуться к поиску
@@ -10,7 +10,7 @@
         <v-alert
           :type="resultsQuantity > 0 ? 'info' : 'error'"
           dense
-          outlined
+          text
           :color="resultsQuantity > 0 ? 'teal' : 'red darken-3'"
         >
           {{ message }}
@@ -23,7 +23,6 @@
           solo
         />
         <v-treeview
-          v-if="isLoaded"
           dense
           :items="filteredSku"
         >

@@ -6,13 +6,25 @@
   >
     <v-container>
       <v-row>
-    <div class="d-flex align-center">
-      <h1>
-        <router-link class="sku-logo" to="/">SKU finder</router-link>
-      </h1>
-    </div>
-    <v-spacer></v-spacer>
-    <v-icon>mdi-open-in-new</v-icon>
+        <div class="d-flex align-center">
+          <h1>
+            <router-link class="sku-logo" to="/">SKU finder</router-link>
+          </h1>
+        </div>
+        <v-spacer></v-spacer>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              icon
+              v-bind="attrs"
+              v-on="on"
+              @click="changeToken"
+            >
+              <v-icon>mdi-account-reactivate</v-icon>
+            </v-btn>
+          </template>
+          <span>Сменить access token</span>
+        </v-tooltip>
       </v-row>
     </v-container>
   </v-app-bar>
@@ -20,7 +32,13 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  methods: {
+    changeToken() {
+      localStorage.removeItem('access-token');
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
 
