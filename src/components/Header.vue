@@ -35,6 +35,7 @@ export default {
   name: 'Header',
   methods: {
     changeToken() {
+      this.$store.commit('setError', null);
       localStorage.removeItem('access-token');
       this.$router.push('/login');
     }

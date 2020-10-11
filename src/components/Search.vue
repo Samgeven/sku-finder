@@ -4,7 +4,7 @@
         <v-card 
           width="480" 
           height="100%" 
-          max-height="250" 
+          max-height="310"
           class="mx-auto align-self-center px-4 px-sm-12 px-md-12 px-lg-12">
           <v-row class="fill-height d-flex flex-column justify-center px-4 px-sm-12 px-md-12 px-lg-12">
             <h1 class="text-h5 font-weight-medium mb-6">Введите внешний код</h1>
@@ -15,6 +15,14 @@
                 filled
                 dense
               />
+              <v-alert 
+                v-if="activeError"
+                type="error"
+                dense
+                class="text-caption"
+              >
+                {{ errorMessage[activeError] }}
+              </v-alert>
             </v-form>
           <v-btn 
             @click="getNewSku"
@@ -33,6 +41,13 @@ import { mapState } from "vuex";
 
 export default {
   name: 'Search',
+  data: () => ({
+    errorMessage: {
+      authError: 'Упс. Неверный access token',
+      networkError: 'Проблемы с соединением. Возможно, это вызвано политикой CORS, нужно установить расширение для браузера',
+      invalidRequest: 'Без внешнего кода ничего не получится :('
+    },
+  }),
   methods: {
     getNewSku() {
       this.$store.dispatch('getSku');
@@ -43,7 +58,8 @@ export default {
         'resultsQuantity',
         'result',
         'isLoaded',
-        'isLoading'
+        'isLoading',
+        'activeError'
     ]),
     outerCode: {
       get() {
@@ -52,7 +68,7 @@ export default {
       set(value) {
           this.$store.commit('updateOuterCode', value)
       }
-    },
+    }
   }
 }
 </script>

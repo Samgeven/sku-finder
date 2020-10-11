@@ -8,13 +8,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     result: null,
+    rawResult: null,
     isLoaded: false,
     isLoading: false,
     resultsQuantity: null,
     outerCode: '',
-    importDate: ''
+    importDate: '',
+    activeError: null
   },
   mutations: {
+    setRawResult(state, payload) {
+      state.rawResult = payload;
+    },
     updateSku(state, payload) {
       state.result = payload.data.skus.map(el => {
         const mapPrices = el.prices.map(price => {
@@ -40,6 +45,7 @@ export default new Vuex.Store({
             { name: `actual_date: ${el.actual_date}` },
             { name: `good_id: ${el.good_id}` },
             { name: `info: ${el.info}` },
+            { name: `NREC: ${el.options.TKANNREC || 'не указан'}` },
             { 
               name: 'prices:',
               children: mapPrices
@@ -64,6 +70,9 @@ export default new Vuex.Store({
     },
     updateImportDate(state, payload) {
       state.importDate = payload;
+    },
+    setError(state, payload) {
+      state.activeError = payload;
     }
   },
   actions: {
@@ -72,6 +81,8 @@ export default new Vuex.Store({
       axios.get(`https://sknesb.ru/api.php/esb.get.skus?good_id=${this.state.outerCode}&access_token=${localStorage.getItem('access-token')}&v=4`)
       .then(response => {
         console.log(response.data);
+        this.commit('setError', null)
+        this.commit('setRawResult', response.data.skus);
         this.commit('updateSku', response);
         this.commit('updateQuantity', response.data.total);
         router.push('/results');
@@ -80,6 +91,16 @@ export default new Vuex.Store({
       })
       .catch(error => {
         console.log(error);
+        console.log(error.request.status);
+        if (error.request.status === 401) {
+          this.commit('setError', 'authError')
+        }
+        else if (error.request.status === 400) {
+          this.commit('setError', 'invalidRequest')
+        }
+        else if (error.request.status === 0) {
+          this.commit('setError', 'networkError')
+        }
         this.commit('setLoading', false);
       }) 
     }

@@ -22,12 +22,20 @@
           dense
           solo
         />
+        <v-text-field
+          label="Поиск по NREC"
+          class="nrec-field"
+          v-model="nrecQuery"
+          filled
+          dense
+          solo
+        />
         <v-treeview
           dense
-          :items="filteredSku"
+          :items="filteredByNrec"
         >
         <v-alert
-          v-if="filteredSku.length === 0 && result.length !== 0"
+          v-if="filteredByNrec.length === 0 && result.length !== 0"
         >
         Совпадений не найдено :(
         </v-alert>
@@ -43,7 +51,8 @@ import { mapState } from "vuex";
 export default {
   name: 'Results',
   data: () => ({
-    searchQuery: ''
+    searchQuery: '',
+    nrecQuery: ''
   }),
   computed: {
     ...mapState([
@@ -61,9 +70,14 @@ export default {
         return `По внешнему коду ${this.outerCode} ничего не найдено`
       }
     },
-    filteredSku() {
+    filteredByName() {
       return this.result.filter(el => {
         return this.searchQuery ? el.name.toLowerCase().includes(this.searchQuery.toLowerCase()) : this.result
+      })
+    },
+    filteredByNrec() {
+      return this.filteredByName.filter(el => {
+        return this.nrecQuery ? el.children[3].name.replace('NREC: ', '').includes(this.nrecQuery) : this.result
       })
     }
   }
@@ -73,5 +87,8 @@ export default {
 <style scoped>
 .to-search-link {
   text-decoration: none;
+}
+.nrec-field {
+  margin-top: -16px;
 }
 </style>
