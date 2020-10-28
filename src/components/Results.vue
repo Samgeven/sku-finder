@@ -80,6 +80,10 @@ export default {
         return this.nrecQuery ? el.children[3].name.replace('NREC: ', '').includes(this.nrecQuery) : this.result
       })
     }
+  },
+  created() {
+    this.$store.commit('updateOuterCode', this.$route.params.outerCode)
+    this.$store.dispatch('getSku');
   }
 }
 </script>

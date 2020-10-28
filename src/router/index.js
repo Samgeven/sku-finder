@@ -13,7 +13,7 @@ const routes = [
     component: Search
   },
   {
-    path: '/results',
+    path: '/results/:outerCode',
     name: 'Results',
     component: Results
   },

@@ -50,7 +50,7 @@ export default {
   }),
   methods: {
     getNewSku() {
-      this.$store.dispatch('getSku');
+      this.$store.dispatch('getSku', 4213);
     }
   },
   computed: {

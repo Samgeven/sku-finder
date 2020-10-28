@@ -85,7 +85,11 @@ export default new Vuex.Store({
         this.commit('setRawResult', response.data.skus);
         this.commit('updateSku', response);
         this.commit('updateQuantity', response.data.total);
-        router.push('/results');
+
+        if(router.history.current.path !== '/search') {
+          router.push(`/results/${this.state.outerCode}`);
+        }
+
         this.commit('setLoading', false);
         this.commit('updateImportDate', response.data.updated);
       })
