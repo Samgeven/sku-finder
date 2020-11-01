@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-container>
+    <v-container v-if="isLoaded">
       <v-row class="mt-8 flex-column">
         <router-link class="to-search-link" to="/">
           <v-btn class="align-self-start mb-6">
@@ -42,6 +42,12 @@
         </v-treeview>
       </v-row>
     </v-container>
+    <v-overlay v-else>
+        <v-progress-circular
+          indeterminate 
+          size="64"
+        ></v-progress-circular>
+      </v-overlay>
   </v-main>
 </template>
 
