@@ -1,24 +1,7 @@
 # sku-finder
 
-## Project setup
-```
-npm install
-```
+Интерфейс для API на интеграционной шине. Преобразует ответ сервера в удобную древовидную структуру при помощи компонентов Vuetify, а также позволяет осуществлять поиск по строке.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Вход
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Для использования сервиса необходим access-token, он служит простейшей реализацией авторизации. Для получения ответа от сервера также необходимо установить расширешие [Allow CORS](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf), так как на сервере не настроены CORS-заголовки
